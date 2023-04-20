@@ -12,9 +12,7 @@ public interface ProductService {
 	
 	List<Product> getProducts();
 	
-	void deleteProduct(long productId);
-	
-	void deleteAll ();
+	String deleteProduct(long productId);
 	
 	Product updateProduct(Product product, long productId);
 }

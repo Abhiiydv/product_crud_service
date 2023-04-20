@@ -44,14 +44,17 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public void deleteProduct(long productId) {
+	public String deleteProduct(long productId) {
 		// TODO Auto-generated method stub
 		log.info("Deleting product with id.."+productId);
 		Product existingProduct = productRepository.findById(productId)
 				.orElseThrow(() -> new ProductNotFoundException("Product", "id", productId));
 		if (existingProduct != null) {
 			productRepository.deleteById(productId);
+			return "Deleted";
 		}
+		else
+			return "Not deleted";
 
 	}
 
@@ -69,11 +72,5 @@ public class ProductServiceImpl implements ProductService {
 		Product updatedProduct = productRepository.save(existingProduct);
 
 		return updatedProduct;
-	}
-
-	@Override
-	public void deleteAll() {
-		// TODO Auto-generated method stub
-		productRepository.deleteAll();
 	}
 }

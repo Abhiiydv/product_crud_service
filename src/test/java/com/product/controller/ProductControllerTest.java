@@ -41,5 +41,47 @@ class ProductControllerTest {
         assertEquals(HttpStatus.FOUND, response.getStatusCode());
         assertEquals(2,response.getBody().size());
     }
+    @Test
+    public void test_getAllProductsFail() {
+    	products = new ArrayList<>();
+    	when(productService.getProducts()).thenReturn(products);
+        ResponseEntity<List<Product>> response = productController.fetchAllProducts();
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+    
+    }
+    
+    @Test
+    public void test_getProductById() {
+    	Product p = new Product(15L,"Monitor","HP",30L);
+    	when(productService.getProduct(15L)).thenReturn(p);
+        ResponseEntity<Product> response = productController.fetchProductById(15L);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals("HP",response.getBody().getBrandName());
+    }
+    
+    @Test
+    public void test_createProduct() {
+    	Product p = new Product(15L,"Monitor","HP",30L);
+    	when(productService.addProduct(p)).thenReturn(p);
+        ResponseEntity<Product> response = productController.saveProduct(p);
+        assertEquals(HttpStatus.CREATED, response.getStatusCode());
+        assertEquals("Monitor",response.getBody().getProductName());
+    }
+    @Test
+    public void test_deleteProduct() {
+    	Product p = new Product(15L,"Monitor","HP",30L);
+    	when(productService.deleteProduct(15L)).thenReturn("Deleted");
+        ResponseEntity<String> response = productController.deleteProduct(15L);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals("Deleted",response.getBody());
+    }
+    @Test
+    public void test_updateProduct() {
+    	Product p = new Product(15L,"Monitor","HP",30L);
+    	when(productService.updateProduct(p, 15L)).thenReturn(p);
+        ResponseEntity<Product> response = productController.updateProduct(p, 15L);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(p,response.getBody());
+    }
     
 }
