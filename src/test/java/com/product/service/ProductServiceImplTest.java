@@ -42,50 +42,66 @@ class ProductServiceImplTest {
 	@DisplayName(value = "Get product by id")
 	public void test_getProductById() {
 
-		Optional<Product> product = Optional.ofNullable(new Product(2L,"Laptop","Apple",20L));
+		Optional<Product> product = Optional.ofNullable(new Product(2L, "Laptop", "Apple", 20L));
 		when(productRepository.findById(2L)).thenReturn(product);
 		assertEquals("Laptop", productServiceImpl.getProduct(2L).getProductName());
 	}
+
 	@Test
 	@DisplayName(value = "Get product by fail id")
 	public void test_getProductByIdFail() {
-	 
-		   Optional<Product> product = Optional.ofNullable(new Product(2L,"Laptop","Apple",20L));
-		   when(productRepository.findById(2L)).thenReturn(product);
-		   Assertions.assertThrows(ProductNotFoundException.class, ()->
-		   productServiceImpl.getProduct(15L)
-				   );
-      
+
+		Optional<Product> product = Optional.ofNullable(new Product(2L, "Laptop", "Apple", 20L));
+		when(productRepository.findById(2L)).thenReturn(product);
+		Assertions.assertThrows(ProductNotFoundException.class, () -> productServiceImpl.getProduct(15L));
+
 	}
-	
+
 	@Test
 	@DisplayName(value = "Save product")
 	public void test_saveProduct() {
-		Product product = new Product(10L,"Laptop","Acer",20L);
+		Product product = new Product(10L, "Laptop", "Acer", 20L);
 		when(productRepository.save(product)).thenReturn(product);
 		assertEquals("Acer", productServiceImpl.addProduct(product).getBrandName());
 	}
-	
+
 	@Test
-	@DisplayName(value="Update product by id")
+	@DisplayName(value = "Update product by id")
 	public void test_updateProduct() {
-		Optional<Product> product = Optional.ofNullable(new Product(10L,"Laptop","Acer",20L));
+		Optional<Product> product = Optional.ofNullable(new Product(10L, "Laptop", "Acer", 20L));
 		when(productRepository.save(product.get())).thenReturn(product.get());
 		when(productRepository.findById(10L)).thenReturn(product);
 		assertEquals(10L, productServiceImpl.updateProduct(product.get(), 10L).getProductId());
 	}
-	
+
 	@Test
-	@DisplayName(value="Update product by id failure")
+	@DisplayName(value = "Update product by id failure")
 	public void test_updateProductFail() {
-		Optional<Product> product = Optional.ofNullable(new Product(10L,"Laptop","Acer",20L));
+		Optional<Product> product = Optional.ofNullable(new Product(10L, "Laptop", "Acer", 20L));
 		when(productRepository.save(product.get())).thenReturn(product.get());
 		when(productRepository.findById(10L)).thenReturn(product);
-		 Assertions.assertThrows(ProductNotFoundException.class, ()->
-		   productServiceImpl.updateProduct(product.get(), 25L)
-				   );
+		Assertions.assertThrows(ProductNotFoundException.class,
+				() -> productServiceImpl.updateProduct(product.get(), 25L));
 	}
 
-	
-	
+	@Test
+	@DisplayName(value = "Delete product by id")
+	public void test_DeleteProductById() {
+		Product product = new Product(10L, "Laptop", "Acer", 20L);
+		when(productRepository.findById(10L)).thenReturn(Optional.of(product));
+		when(productRepository.existsById(product.getProductId())).thenReturn(false);
+		assertEquals("Deleted", productServiceImpl.deleteProduct(10L));
+	}
+
+	@Test
+	@DisplayName(value = "Delete product by id failure")
+	public void test_DeleteProductByIdFail() {
+		Assertions.assertThrows(ProductNotFoundException.class, () ->
+
+		{
+			when(productRepository.findById(10L)).thenThrow(new ProductNotFoundException("Product", "id", 10L));
+			productServiceImpl.deleteProduct(10L);
+		});
+	}
+
 }
