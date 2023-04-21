@@ -2,28 +2,37 @@ package com.product.model;
 
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import java.time.LocalDateTime;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest(classes = {ErrorDetailsTest.class})
 class ErrorDetailsTest {
 
-	@Test
-	public void test_getmessage() {
-		String s = "No product found";
-		assertEquals(s, "No product found");
-	}
-
-	@Test
-	public void test_getErrorCode() {
-		String s = "Product_Not_Found";
-		assertEquals(s, "Product_Not_Found");
-	}
-
-	@Test
-	public void test_getPath() {
-		String s = "api/products/303";
-		assertEquals(s, "api/products/303");
-	}
 	
+	@Test
+    public void testGettersAndSetters() {
+        // Set up test data
+        String e = "Not Found";
+        String m = "Not Found";
+        String p = "Not Found";
+        LocalDateTime dateTime = LocalDateTime.parse("2023-04-21T15:30:45");
+        
+        // Create a new ErrorResponse object
+        ErrorDetails errorResponse = new ErrorDetails();
+
+        // Set the values using setters
+        errorResponse.setErrorCode(e);
+        errorResponse.setMessage(m);
+        errorResponse.setPath(p);
+        errorResponse.setTimestamp(dateTime);
+
+        // Verify that the values were set correctly using getters
+        assertEquals(e, errorResponse.getErrorCode());
+        assertEquals(m, errorResponse.getMessage());
+        assertEquals(p, errorResponse.getPath());
+        assertEquals(dateTime, errorResponse.getTimestamp());
+    }
 }
