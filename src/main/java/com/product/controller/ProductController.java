@@ -18,7 +18,6 @@ import com.product.entity.Product;
 import com.product.service.ProductService;
 
 import jakarta.validation.Valid;
-import lombok.extern.log4j.Log4j2;
 
 @RestController
 @RequestMapping("/api/products")
@@ -27,13 +26,14 @@ public class ProductController {
 	@Autowired
 	private ProductService productService;
 
-	// Save Product
+	
 	@PostMapping("/create")
 	public ResponseEntity<Product> saveProduct(@Valid @RequestBody Product product) {
-        
+
 		Product savedProduct = productService.addProduct(product);
 		return new ResponseEntity<>(savedProduct, HttpStatus.CREATED);
 	}
+
 	@GetMapping("/{id}")
 	public ResponseEntity<Product> fetchProductById(@PathVariable("id") Long id) {
 		Product savedProduct = productService.getProduct(id);
@@ -43,7 +43,7 @@ public class ProductController {
 	@GetMapping("/")
 	public ResponseEntity<List<Product>> fetchAllProducts() {
 		List<Product> listOfProducts = productService.getProducts();
-		if(!listOfProducts.isEmpty()) {
+		if (!listOfProducts.isEmpty()) {
 			return new ResponseEntity<>(listOfProducts, HttpStatus.FOUND);
 		}
 		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -52,7 +52,7 @@ public class ProductController {
 	@DeleteMapping("/delete/{id}")
 	public ResponseEntity<String> deleteProduct(@PathVariable("id") Long id) {
 		String res = productService.deleteProduct(id);
-		return new ResponseEntity<String>(res, HttpStatus.OK);
+		return new ResponseEntity<>(res, HttpStatus.OK);
 	}
 
 	@PutMapping("/update/{id}")
@@ -60,6 +60,5 @@ public class ProductController {
 		Product updatedProduct = productService.updateProduct(product, id);
 		return new ResponseEntity<>(updatedProduct, HttpStatus.OK);
 	}
-
 
 }

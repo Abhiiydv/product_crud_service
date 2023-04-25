@@ -20,7 +20,7 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public Product addProduct(Product product) {
-		// TODO Auto-generated method stub
+		
 		log.info("Saving product..");
 		Product savedProduct = productRepository.save(product);
 		return savedProduct;
@@ -28,8 +28,8 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public Product getProduct(long productId) {
-		// TODO Auto-generated method stub
-		log.info("Fetching product with Id.."+productId);
+		
+		log.info("Fetching product with Id.." + productId);
 		Product existingProduct = productRepository.findById(productId)
 				.orElseThrow(() -> new ProductNotFoundException("Product", "id", productId));
 		return existingProduct;
@@ -37,7 +37,7 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public List<Product> getProducts() {
-		// TODO Auto-generated method stub
+	
 		log.info("Fetching product list..");
 		List<Product> listOfProducts = productRepository.findAll();
 		return listOfProducts;
@@ -45,23 +45,22 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public String deleteProduct(long productId) {
-		// TODO Auto-generated method stub
-		log.info("Deleting product with id.."+productId);
+		
+		log.info("Deleting product with id.." + productId);
 		Product existingProduct = productRepository.findById(productId)
 				.orElseThrow(() -> new ProductNotFoundException("Product", "id", productId));
 		if (existingProduct != null) {
 			productRepository.deleteById(productId);
 			return "Deleted";
-		}
-		else
+		} else
 			return "Not deleted";
 
 	}
 
 	@Override
 	public Product updateProduct(Product product, long productId) {
-		// TODO Auto-generated method stub
-		log.info("Updating product with id.."+productId);
+		
+		log.info("Updating product with id.." + productId);
 		Product existingProduct = productRepository.findById(productId)
 				.orElseThrow(() -> new ProductNotFoundException("Product", "id", productId));
 

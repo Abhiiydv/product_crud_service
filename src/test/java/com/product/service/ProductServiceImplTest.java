@@ -49,7 +49,7 @@ class ProductServiceImplTest {
 
 	@Test
 	@DisplayName(value = "Get product by fail id")
-	public void test_getProductByIdFail() {
+	public void test_getProductByIdFail() throws ProductNotFoundException {
 
 		Optional<Product> product = Optional.ofNullable(new Product(2L, "Laptop", "Apple", 20L));
 		when(productRepository.findById(2L)).thenReturn(product);
@@ -76,7 +76,7 @@ class ProductServiceImplTest {
 
 	@Test
 	@DisplayName(value = "Update product by id failure")
-	public void test_updateProductFail() {
+	public void test_updateProductFail() throws ProductNotFoundException {
 		Optional<Product> product = Optional.ofNullable(new Product(10L, "Laptop", "Acer", 20L));
 		when(productRepository.save(product.get())).thenReturn(product.get());
 		when(productRepository.findById(10L)).thenReturn(product);
@@ -95,7 +95,7 @@ class ProductServiceImplTest {
 
 	@Test
 	@DisplayName(value = "Delete product by id failure")
-	public void test_DeleteProductByIdFail() {
+	public void test_DeleteProductByIdFail() throws ProductNotFoundException {
 		Assertions.assertThrows(ProductNotFoundException.class, () ->
 
 		{
